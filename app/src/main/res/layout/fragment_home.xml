@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".fragments.frag_activit_main.Home">
 
     <RelativeLayout
@@ -13,11 +14,6 @@
         android:layout_marginRight="2dp"
         android:background="#e0e0e0">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:text="Fragmento home"
-                android:layout_height="wrap_content">
-            </TextView>
 
             <FrameLayout
                 android:id="@+id/frame_layout_home"

@@ -7,9 +7,28 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/titulo_lit_agend_empresa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
-        android:text="fragmento lista empresa" />
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        android:text="Agendamentos" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginTop="35dp"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recicle_view_list_agend_empresa"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
 </FrameLayout>
