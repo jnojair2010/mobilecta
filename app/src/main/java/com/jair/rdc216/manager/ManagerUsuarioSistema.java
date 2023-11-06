@@ -7,6 +7,7 @@ public class ManagerUsuarioSistema {
     private static Consultor mConsultor = new Consultor();
 
     private static boolean usuarioLogado = false;
+    private static String email;
 
     public ManagerUsuarioSistema(){
 
@@ -26,5 +27,13 @@ public class ManagerUsuarioSistema {
 
     public void setUsuarioLogado(boolean usuarioLogado) {
         ManagerUsuarioSistema.usuarioLogado = usuarioLogado;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        ManagerUsuarioSistema.email = email;
     }
 }

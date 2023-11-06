@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "946686293557",
-    "project_id": "rdc216-8b342",
-    "storage_bucket": "rdc216-8b342.appspot.com"
+    "project_number": "190667746119",
+    "project_id": "projeto-cta",
+    "storage_bucket": "projeto-cta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:946686293557:android:174358d44a2394979a637c",
+        "mobilesdk_app_id": "1:190667746119:android:45bdaa8954b710ac957a62",
         "android_client_info": {
           "package_name": "com.jair.rdc216"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAm5C7928hL3TlPW9Sz2TWnpefsYe9Y34Q"
+          "current_key": "AIzaSyDirBXDGDxRyXP8IXC0bhhmlPlIIFNZnXo"
         }
       ],
       "services": {

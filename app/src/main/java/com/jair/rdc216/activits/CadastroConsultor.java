@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.jair.rdc216.databinding.ActivityCadastroConsultorBinding;
 import com.jair.rdc216.manager.ManagerUsuarioSistema;
@@ -71,7 +72,7 @@ public class CadastroConsultor extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
                 GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("946686293557-o36d814hlmbk9nkd5nh9oae8agn3qqhr.apps.googleusercontent.com")
+                .requestIdToken("190667746119-gsec08qnrh284vlhuf1q9ipobi7rephf.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -118,11 +119,15 @@ public class CadastroConsultor extends AppCompatActivity {
         AuthCredential credencial = GoogleAuthProvider.getCredential(token, null);
         mAuth.signInWithCredential(credencial).addOnCompleteListener(this, task->{
             if(task.isSuccessful()){
-                Toast.makeText(this,"Entrou no metodo de efetuar o login",Toast.LENGTH_LONG).show();
+                FirebaseUser user = mAuth.getCurrentUser();
 
+                this.mManagerUsuarioSistema.setUsuarioLogado(true);
+                this.mManagerUsuarioSistema.setEmail(user.getEmail());
+                Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
+                finish();
 
             }else{
-                Toast.makeText(this,"ão foi possível efetuar o Login",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Não foi possível efetuar o Login",Toast.LENGTH_LONG).show();
 
             }
 
@@ -137,11 +142,11 @@ public class CadastroConsultor extends AppCompatActivity {
                 try {
                     GoogleSignInAccount conta = task.getResult(ApiException.class);
                     loginComGoogle(conta.getIdToken());
-                    Toast.makeText(this," ha Usuario Logado No aparelho ",Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(this," Login g efetuado sucesso onActivityResult ",Toast.LENGTH_LONG).show();
 
                 }catch (ApiException execption){
                     String s  = execption.toString();
-                    Toast.makeText(this,"Não foi Possível logar ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Nenhum Usuario Logado no aparelho ",Toast.LENGTH_LONG).show();
                     Log.i("googleErrocount","o erro foi "+s);
                 }
         }
