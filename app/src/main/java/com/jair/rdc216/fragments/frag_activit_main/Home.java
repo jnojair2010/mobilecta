@@ -47,7 +47,7 @@ public class Home extends Fragment {
         this.view =inflater.inflate(R.layout.fragment_home, container, false);
 
         this.fragmentManager = getActivity().getSupportFragmentManager();
-        checkUserSistem();
+
 
         return view;
     }
@@ -80,6 +80,11 @@ public class Home extends Fragment {
         Log.i("//////////// onPause /////////", "chegou no onstart nivel 2");
 
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        //checkUserSistem(); get dialog para login
+    }
 
     @Override
     public void onPause() {
@@ -107,6 +112,8 @@ public class Home extends Fragment {
 
     }
 
+
+
     private Dialog dialogShow(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
@@ -123,16 +130,13 @@ public class Home extends Fragment {
                 .setNegativeButton("Novo Cadastro", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        abrirActivitCadastroConsultor();
+
                     }
                 });
         return alertDialog.show();
     }
 
-    private void abrirActivitCadastroConsultor(){
-        Intent intent = new Intent(getActivity(), CadastroConsultor.class);
-            startActivity(intent);
-    }
+
 
 
 
