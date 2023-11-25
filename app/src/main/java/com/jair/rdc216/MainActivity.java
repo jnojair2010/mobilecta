@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import com.jair.rdc216.fragments.frag_activit_main.Checked;
 import com.jair.rdc216.fragments.frag_activit_main.Checkelist;
 import com.jair.rdc216.fragments.frag_activit_main.Home;
 import com.jair.rdc216.manager.ManagerUsuarioSistema;
+import com.jair.rdc216.manager.permission.Permission;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private Checked mChecked;
     private Checkelist mCheckelist;
     private ViewHolder mViewHolder = new ViewHolder();
+
+    private String[] permissioesNecessarias = new String[]{
+        Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
     private ManagerUsuarioSistema mManagerUsuarioSistema = new ManagerUsuarioSistema();
 
 
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mChecked = new Checked();
         mCheckelist = new Checkelist();
 
+        // apresenta a permissoa
 
 
         // inplementa o fragmento home de visualizção inicial
@@ -115,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        Permission.validarPermission(1,this,permissioesNecessarias);
         boolean logged =  mManagerUsuarioSistema.getUsuarioLogado();
         if(logged != true){
             abrirActivitCadastroConsultor();
@@ -133,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static class ViewHolder{
-
         Button btn_viewToast;
         RecyclerView mRecycleView;
 

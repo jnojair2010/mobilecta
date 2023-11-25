@@ -123,6 +123,8 @@ public class CadastroConsultor extends AppCompatActivity {
 
                 this.mManagerUsuarioSistema.setUsuarioLogado(true);
                 this.mManagerUsuarioSistema.setEmail(user.getEmail());
+
+                this.mManagerUsuarioSistema.salvarLoginGoogle();
                 Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();
 
