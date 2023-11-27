@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewHolder mViewHolder = new ViewHolder();
 
     private String[] permissioesNecessarias = new String[]{
-        Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private ManagerUsuarioSistema mManagerUsuarioSistema = new ManagerUsuarioSistema();
@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         mCheckelist = new Checkelist();
 
         // apresenta a permissoa
-
-
+      //  boolean ok = Permission.validarPermission(1,this,permissioesNecessarias);
         // inplementa o fragmento home de visualizção inicial
+
             FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
             fragmentTransaction1.replace(R.id.flame_layout,mHome);
             fragmentTransaction1.commit();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        Permission.validarPermission(1,this,permissioesNecessarias);
+
         boolean logged =  mManagerUsuarioSistema.getUsuarioLogado();
         if(logged != true){
             abrirActivitCadastroConsultor();
