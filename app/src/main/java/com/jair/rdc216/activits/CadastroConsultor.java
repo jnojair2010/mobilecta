@@ -34,17 +34,11 @@ import com.jair.rdc216.manager.permission.Permission;
 public class CadastroConsultor extends AppCompatActivity {
     private ActionBar bar;
     private FragmentManager fragmentManager;
-
     private GoogleSignInClient mGoogleSingInClient; // precisa adciona a dependencia (implementation 'com.google.android.gms:play-services-auth:20.7.0')
     private ManagerUsuarioSistema mManagerUsuarioSistema = new ManagerUsuarioSistema();
-
     GoogleSignInClient googleSingInClient;
-
     FirebaseAuth mAuth;
-
-
     AccountManager am;
-
     ActivityCadastroConsultorBinding binding;
     private String[] permissioesNecessarias = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -63,11 +57,6 @@ public class CadastroConsultor extends AppCompatActivity {
         setContentView(view);
 
         boolean ok = Permission.validarPermission(1,this,permissioesNecessarias);
-
-       // binding..setBackgroundColor(Color.parseColor("#004d40"));
-
-        //setContentView(R.layout.activity_cadastro_consultor);
-
 
 
         this.bar = getSupportActionBar();

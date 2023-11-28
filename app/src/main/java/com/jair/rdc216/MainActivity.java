@@ -50,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
         this.bar = getSupportActionBar();
 
         this.bar.setTitle("Sistema Rdc216");
+
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1b5e20")));
 
         mHome = new Home();
         mChecked = new Checked();
         mCheckelist = new Checkelist();
+
 
         // apresenta a permissoa
       //  boolean ok = Permission.validarPermission(1,this,permissioesNecessarias);
@@ -129,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
             abrirActivitCadastroConsultor();
 
         }else{
-
 
         }
     }
