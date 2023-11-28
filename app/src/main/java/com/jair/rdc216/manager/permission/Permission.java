@@ -23,12 +23,12 @@ public class Permission {
     private static  List<String> listaPermissoesNegada = new ArrayList<>();
 
 
-    public static boolean validarPermission(int requestCode, Activity activity, String[] permission){
+    public static boolean validarPermission(int requestCode, Activity activity, String[] permission, String msg){
 
         verificarPermissaoMultipla(activity, permission);
         verificarPermissoesNegadaMultipla(activity, permission);
-        solicitarPermissoesMultiplas(activity, listaPermissao);
-        solicitarPermissaoNegadoMUltipla(activity, listaPermissoesNegada);
+        solicitarPermissoesMultiplas(activity, listaPermissao, msg);
+        solicitarPermissaoNegadoMUltipla(activity, listaPermissoesNegada, msg);
 
 
 
@@ -72,7 +72,7 @@ public class Permission {
 
         return true;
     }
-    private static boolean solicitarPermissoesMultiplas(Activity activity, List<String> listaPermission){
+    private static boolean solicitarPermissoesMultiplas(Activity activity, List<String> listaPermission, String msg){
 
         //solicitar permissão pela primeira vez
 
@@ -80,14 +80,14 @@ public class Permission {
         listaPermission.toArray(permissoes);
 
         for(String permissao : permissoes){
-            alert(activity, permissao);
+            alert(activity, permissao, msg);
             Log.i("/////permission/////", " Solicita Permissão pela primeira vez "+permissao);
         }
 
         return true;
     }
 
-    private static boolean solicitarPermissaoNegadoMUltipla(Activity activity, List<String> listaPermission){
+    private static boolean solicitarPermissaoNegadoMUltipla(Activity activity, List<String> listaPermission, String msg){
 
 
         String[] permissoes = new String[listaPermission.size()];
@@ -96,7 +96,7 @@ public class Permission {
         verificarPermissoesNegadaMultipla(activity, permissoes);
 
             for(String permissao : permissoes){
-                alert(activity, permissao);
+                alert(activity, permissao,msg);
                 Log.i("/////permission/////", " Solicitadas as permissoes que já foram negada "+permissoes);
             }
 
@@ -153,11 +153,11 @@ public class Permission {
        return true;
     }
 
-    private static void alert(Activity activity, String permissao){
+    private static void alert(Activity activity, String permissao, String msg){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-        builder.setMessage("Para que nosso App funcione melho será preciso altorizar permicões de localização de gps")
+        builder.setMessage(msg)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 

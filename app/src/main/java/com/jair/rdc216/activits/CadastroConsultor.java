@@ -56,7 +56,7 @@ public class CadastroConsultor extends AppCompatActivity {
 
         setContentView(view);
 
-        boolean ok = Permission.validarPermission(1,this,permissioesNecessarias);
+        boolean ok = Permission.validarPermission(1,this,permissioesNecessarias, "Este aplicativo precisa de permissao de localizao para execução sem promblemas");
 
 
         this.bar = getSupportActionBar();
