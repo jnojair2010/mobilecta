@@ -36,4 +36,25 @@ public class ManagerUsuarioSistema {
     public static void setEmail(String email) {
         ManagerUsuarioSistema.email = email;
     }
+
+    public boolean salvarLoginGoogle(){
+
+        if(salvarLoginGoogleSqlite()==true && salvarLoginServido()){
+
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private boolean salvarLoginGoogleSqlite(){
+
+        return true;
+    }
+    private boolean salvarLoginServido(){
+
+        return true;
+    }
+
+
 }

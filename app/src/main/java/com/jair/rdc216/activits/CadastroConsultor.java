@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,22 +29,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.jair.rdc216.databinding.ActivityCadastroConsultorBinding;
 import com.jair.rdc216.manager.ManagerUsuarioSistema;
+import com.jair.rdc216.manager.permission.Permission;
 
 public class CadastroConsultor extends AppCompatActivity {
     private ActionBar bar;
     private FragmentManager fragmentManager;
-
     private GoogleSignInClient mGoogleSingInClient; // precisa adciona a dependencia (implementation 'com.google.android.gms:play-services-auth:20.7.0')
     private ManagerUsuarioSistema mManagerUsuarioSistema = new ManagerUsuarioSistema();
-
     GoogleSignInClient googleSingInClient;
-
     FirebaseAuth mAuth;
-
-
     AccountManager am;
-
     ActivityCadastroConsultorBinding binding;
+    private String[] permissioesNecessarias = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +56,9 @@ public class CadastroConsultor extends AppCompatActivity {
 
         setContentView(view);
 
+        boolean ok = Permission.validarPermission(1,this,permissioesNecessarias, "Este aplicativo precisa de permissao de localizao para execução sem promblemas");
 
-      
-       // binding..setBackgroundColor(Color.parseColor("#004d40"));
 
-        //setContentView(R.layout.activity_cadastro_consultor);
         this.bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
 
@@ -123,6 +122,8 @@ public class CadastroConsultor extends AppCompatActivity {
 
                 this.mManagerUsuarioSistema.setUsuarioLogado(true);
                 this.mManagerUsuarioSistema.setEmail(user.getEmail());
+
+                this.mManagerUsuarioSistema.salvarLoginGoogle();
                 Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();
 
