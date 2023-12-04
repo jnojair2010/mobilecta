@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.Firebase;
 import com.jair.rdc216.activits.CadastroConsultor;
+import com.jair.rdc216.dao.sqlite.model.LoginModel;
+import com.jair.rdc216.dao.sqlite.repositorio.LoginRepositorio;
 import com.jair.rdc216.fragments.frag_activit_main.Checked;
 import com.jair.rdc216.fragments.frag_activit_main.Checkelist;
 import com.jair.rdc216.fragments.frag_activit_main.Home;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private Checked mChecked;
     private Checkelist mCheckelist;
     private ViewHolder mViewHolder = new ViewHolder();
+
+    private LoginRepositorio mLoginRepositorio;
 
     private String[] permissioesNecessarias = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         mHome = new Home();
         mChecked = new Checked();
         mCheckelist = new Checkelist();
+
+        mLoginRepositorio = new LoginRepositorio(this);
 
 
         // apresenta a permissoa
@@ -126,13 +133,28 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
+        LoginModel loginSistemaSqlite = new LoginModel();
+
+
+        if( mLoginRepositorio.getLogin() == null ){
+            Log.i("login", " retorou objeto null ");
+        }else{
+            loginSistemaSqlite = mLoginRepositorio.getLogin();
+            mManagerUsuarioSistema.setUsuarioLogado(true);
+
+            Log.i("login", " retorou objeto true e logou ");
+        }
+
         boolean logged =  mManagerUsuarioSistema.getUsuarioLogado();
-        if(logged != true){
+
+        //só entra no is se não tiver usuario logado no sistema
+       if(logged != true){
             abrirActivitCadastroConsultor();
 
         }else{
+           // Log.i("login", " o emails do lofgin : "+  mLoginRepositorio.getLogin().getEmail());
+       }
 
-        }
     }
 
     private void abrirActivitCadastroConsultor(){

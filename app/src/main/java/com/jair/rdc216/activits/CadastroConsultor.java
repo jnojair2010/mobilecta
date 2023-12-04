@@ -27,9 +27,18 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.jair.rdc216.dao.http.RetrofitHttp;
+import com.jair.rdc216.dao.http.ServiceHttp;
+import com.jair.rdc216.dao.sqlite.model.LoginModel;
+import com.jair.rdc216.dao.sqlite.repositorio.LoginRepositorio;
 import com.jair.rdc216.databinding.ActivityCadastroConsultorBinding;
 import com.jair.rdc216.manager.ManagerUsuarioSistema;
 import com.jair.rdc216.manager.permission.Permission;
+import com.jair.rdc216.model.Login;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CadastroConsultor extends AppCompatActivity {
     private ActionBar bar;
@@ -39,6 +48,11 @@ public class CadastroConsultor extends AppCompatActivity {
     GoogleSignInClient googleSingInClient;
     FirebaseAuth mAuth;
     AccountManager am;
+
+    private LoginRepositorio mLoginRepositorio;
+
+    private ServiceHttp mServiceHttp = RetrofitHttp.createService(ServiceHttp.class);
+
     ActivityCadastroConsultorBinding binding;
     private String[] permissioesNecessarias = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -58,6 +72,7 @@ public class CadastroConsultor extends AppCompatActivity {
 
         boolean ok = Permission.validarPermission(1,this,permissioesNecessarias, "Este aplicativo precisa de permissao de localizao para execução sem promblemas");
 
+        mLoginRepositorio = new LoginRepositorio(this);
 
         this.bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
@@ -99,6 +114,36 @@ public class CadastroConsultor extends AppCompatActivity {
 
     }
 
+    //salvar o login no banco de dado da conta google
+    private void salvarLoginBd(String emailSmartPhone){
+
+        LoginModel mLogin = new LoginModel();
+        mLogin.setEmail(emailSmartPhone);
+        mLoginRepositorio.InserirLogin(mLogin);
+
+        salvarLoginServidor(emailSmartPhone);
+
+        Toast.makeText(this,"Entrou em SalvarLoginBd:"+emailSmartPhone,Toast.LENGTH_LONG).show();
+
+    }
+
+    private void salvarLoginServidor(String  emailSmartPhone){
+        Call<Login> salvarEmailSmartPhone = this.mServiceHttp.salvarLoginSmartPhone(emailSmartPhone);
+                    salvarEmailSmartPhone.enqueue(new Callback<Login>() {
+                        @Override
+                        public void onResponse(Call<Login> call, Response<Login> response) {
+                            response.code();
+                            Log.i("retrofit"," o status do servidor é "+response.code());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Login> call, Throwable t) {
+                            Log.i("retrofit"," o erro do servidor é "+t.getMessage());
+                        }
+                    });
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -122,9 +167,11 @@ public class CadastroConsultor extends AppCompatActivity {
 
                 this.mManagerUsuarioSistema.setUsuarioLogado(true);
                 this.mManagerUsuarioSistema.setEmail(user.getEmail());
-
                 this.mManagerUsuarioSistema.salvarLoginGoogle();
-                Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
+
+                salvarLoginBd(user.getEmail());
+
+               // Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();
 
             }else{
