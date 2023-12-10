@@ -13,7 +13,7 @@ public class LoginRepositorio {
         this.mSql = db.login();
     }
 
-    public boolean InserirLogin(LoginModel login){
+    public boolean InserirConsultor(LoginModel login){
         return this.mSql.insert(login)>0;
     }
 

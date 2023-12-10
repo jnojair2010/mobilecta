@@ -1,27 +1,41 @@
-package com.jair.rdc216.model;
+package com.jair.rdc216.dao.sqlite.model;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class Consultor  {
+@Entity(tableName="consultor")
+public class ConsultorModel {
+
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "nome")
     private String nome;
+
+    @ColumnInfo(name = "sobre_nome")
     private String sobre_nome;
+
+    @ColumnInfo(name = "cpf")
     private String cpf;
+
+    @ColumnInfo(name = "registro")
     private String registro;
+
+    @ColumnInfo(name = "email")
     private String email;
+
+    @ColumnInfo(name = "estado_consultor")
     private boolean estado_consultor;
+
+    @ColumnInfo(name = "data_cadastro")
     private String data_cadastro;
+
+    @ColumnInfo(name = "mensagemRetornoServido")
     private String mensagemRetornoServidor;
-    private int idConsultor;
-    private String Funcao;
-    private String dataRegisto;
 
 
-
-    public Consultor(){
-        super();
-
-    }
+    public ConsultorModel(){}
 
     public int getId() {
         return id;
@@ -87,35 +101,12 @@ public class Consultor  {
         this.data_cadastro = data_cadastro;
     }
 
+
     public String getMensagemRetornoServidor() {
         return mensagemRetornoServidor;
     }
 
     public void setMensagemRetornoServidor(String mensagemRetornoServidor) {
         this.mensagemRetornoServidor = mensagemRetornoServidor;
-    }
-
-    public int getIdConsultor() {
-        return idConsultor;
-    }
-
-    public void setIdConsultor(int idConsultor) {
-        this.idConsultor = idConsultor;
-    }
-
-    public String getFuncao() {
-        return Funcao;
-    }
-
-    public void setFuncao(String funcao) {
-        Funcao = funcao;
-    }
-
-    public String getDataRegisto() {
-        return dataRegisto;
-    }
-
-    public void setDataRegisto(String dataRegisto) {
-        this.dataRegisto = dataRegisto;
     }
 }

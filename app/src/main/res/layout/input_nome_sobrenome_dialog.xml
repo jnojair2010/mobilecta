@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/txtMenssage"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:background="@color/cor_verd_cta"
+        android:textColor="@color/white"
+        android:paddingTop="8dp"
+        android:text="Importante sua identificação"
+        />
+
+    <TextView
+        android:id="@+id/txtnome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtMenssage"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/black"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="18dp"
+        android:text="Nome:" />
+
+    <EditText
+        android:id="@+id/edtNome"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/txtnome"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="0dp"
+        android:ems="10"
+        android:hint="Nome" />
+    <TextView
+        android:id="@+id/txtSobreNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtNome"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentEnd="true"
+        android:text="Sobre Nome:"
+        />
+    <EditText
+        android:id="@+id/edtSobreNome"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/txtSobreNome"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="0dp"
+        android:ems="10"
+        android:hint="Sobre nome" />
+
+
+</RelativeLayout>

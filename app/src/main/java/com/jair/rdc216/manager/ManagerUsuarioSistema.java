@@ -1,10 +1,13 @@
 package com.jair.rdc216.manager;
 
+import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
 import com.jair.rdc216.model.Consultor;
 
 public class ManagerUsuarioSistema {
 
-    private static Consultor mConsultor = new Consultor();
+
+    public static Consultor mConsultor = new Consultor();
+   // ConsultorModel consultor = new ConsultorModel();
 
     private static boolean usuarioLogado = false;
     private static String email;
@@ -21,6 +24,11 @@ public class ManagerUsuarioSistema {
         ManagerUsuarioSistema.mConsultor = mConsultor;
     }
 
+    public void setConsultor(ConsultorModel consultor) {
+        this.mConsultor.setEmail(consultor.getEmail());
+        this.mConsultor.setDataRegisto(consultor.getData_cadastro());
+    }
+
     public boolean getUsuarioLogado() {
         return usuarioLogado;
     }
@@ -29,13 +37,14 @@ public class ManagerUsuarioSistema {
         ManagerUsuarioSistema.usuarioLogado = usuarioLogado;
     }
 
-    public static String getEmail() {
+    // para deletar
+  /*  public static String getEmail() {
         return email;
     }
 
     public static void setEmail(String email) {
         ManagerUsuarioSistema.email = email;
-    }
+    }*/
 
     public boolean salvarLoginGoogle(){
 

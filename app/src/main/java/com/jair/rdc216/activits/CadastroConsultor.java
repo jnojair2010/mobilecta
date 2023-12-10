@@ -29,12 +29,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.jair.rdc216.dao.http.RetrofitHttp;
 import com.jair.rdc216.dao.http.ServiceHttp;
-import com.jair.rdc216.dao.sqlite.model.LoginModel;
+import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
+import com.jair.rdc216.dao.sqlite.repositorio.ConsultorRespostorio;
 import com.jair.rdc216.dao.sqlite.repositorio.LoginRepositorio;
 import com.jair.rdc216.databinding.ActivityCadastroConsultorBinding;
 import com.jair.rdc216.manager.ManagerUsuarioSistema;
 import com.jair.rdc216.manager.permission.Permission;
+import com.jair.rdc216.model.Consultor;
 import com.jair.rdc216.model.Login;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,10 +53,16 @@ public class CadastroConsultor extends AppCompatActivity {
     GoogleSignInClient googleSingInClient;
     FirebaseAuth mAuth;
     AccountManager am;
+    private ConsultorModel consultor = new ConsultorModel();
 
     private LoginRepositorio mLoginRepositorio;
+    private ConsultorRespostorio mConsultorRepositorio;
 
     private ServiceHttp mServiceHttp = RetrofitHttp.createService(ServiceHttp.class);
+    private Consultor mConsultor = new Consultor();
+   // private ConsultorModel consultor = new ConsultorModel();
+
+
 
     ActivityCadastroConsultorBinding binding;
     private String[] permissioesNecessarias = new String[]{
@@ -73,12 +84,14 @@ public class CadastroConsultor extends AppCompatActivity {
         boolean ok = Permission.validarPermission(1,this,permissioesNecessarias, "Este aplicativo precisa de permissao de localizao para execução sem promblemas");
 
         mLoginRepositorio = new LoginRepositorio(this);
+        mConsultorRepositorio = new ConsultorRespostorio(this);
 
         this.bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
 
         this.bar.setTitle("Cadastro Consultor");
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1b5e20")));
+
 
 
         this.fragmentManager = getSupportFragmentManager();
@@ -105,6 +118,7 @@ public class CadastroConsultor extends AppCompatActivity {
 
     @Override
     public void onStart(){
+
         super.onStart();
         if(mManagerUsuarioSistema.getUsuarioLogado()!=true){
 
@@ -114,30 +128,32 @@ public class CadastroConsultor extends AppCompatActivity {
 
     }
 
-    //salvar o login no banco de dado da conta google
-    private void salvarLoginBd(String emailSmartPhone){
+    private void consultarConsultor(){
 
-        LoginModel mLogin = new LoginModel();
-        mLogin.setEmail(emailSmartPhone);
-        mLoginRepositorio.InserirLogin(mLogin);
-
-        salvarLoginServidor(emailSmartPhone);
-
-        Toast.makeText(this,"Entrou em SalvarLoginBd:"+emailSmartPhone,Toast.LENGTH_LONG).show();
+        mConsultorRepositorio.getConsultor();
 
     }
 
-    private void salvarLoginServidor(String  emailSmartPhone){
-        Call<Login> salvarEmailSmartPhone = this.mServiceHttp.salvarLoginSmartPhone(emailSmartPhone);
-                    salvarEmailSmartPhone.enqueue(new Callback<Login>() {
+    //salvar o login no banco de dado da conta google
+    private void salvarConsultorBd(ConsultorModel consultor ){
+
+        mConsultorRepositorio.InserirConsultor(consultor);
+
+        Toast.makeText(this,"Entrou em SalvarLoginBd:"+consultor.getEmail(),Toast.LENGTH_LONG).show();
+
+    }
+
+    private void salvarConsultorServidor(ConsultorModel consultor ){
+        Call<ConsultorModel> salvarEmailSmartPhone = this.mServiceHttp.salvarEmailSmartPhone(consultor.getEmail(), consultor.getData_cadastro());
+                    salvarEmailSmartPhone.enqueue(new Callback<ConsultorModel>() {
                         @Override
-                        public void onResponse(Call<Login> call, Response<Login> response) {
+                        public void onResponse(Call<ConsultorModel> call, Response<ConsultorModel> response) {
                             response.code();
-                            Log.i("retrofit"," o status do servidor é "+response.code());
+                            Log.i("retrofit"," o status do servidor é "+response.body().getMensagemRetornoServidor());
                         }
 
                         @Override
-                        public void onFailure(Call<Login> call, Throwable t) {
+                        public void onFailure(Call<ConsultorModel> call, Throwable t) {
                             Log.i("retrofit"," o erro do servidor é "+t.getMessage());
                         }
                     });
@@ -165,11 +181,21 @@ public class CadastroConsultor extends AppCompatActivity {
             if(task.isSuccessful()){
                 FirebaseUser user = mAuth.getCurrentUser();
 
+                //pega a data para registrar da cada de cadastro
+                Date data = new Date();
+                SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
+                String dataFormatada = formataData.format(data);
+
+                consultor.setEmail(user.getEmail());
+                consultor.setData_cadastro(dataFormatada);
+
+                this.mManagerUsuarioSistema.setConsultor(consultor);
+
                 this.mManagerUsuarioSistema.setUsuarioLogado(true);
-                this.mManagerUsuarioSistema.setEmail(user.getEmail());
                 this.mManagerUsuarioSistema.salvarLoginGoogle();
 
-                salvarLoginBd(user.getEmail());
+                salvarConsultorBd(consultor);
+                salvarConsultorServidor(consultor);
 
                // Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();

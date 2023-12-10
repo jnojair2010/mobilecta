@@ -1,5 +1,6 @@
 package com.jair.rdc216.dao.http;
 
+import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
 import com.jair.rdc216.dao.sqlite.model.LoginModel;
 import com.jair.rdc216.model.DatasScheduling;
 import com.jair.rdc216.model.Login;
@@ -21,8 +22,16 @@ public interface ServiceHttp {
     );
 
     @FormUrlEncoded
-    @POST("/salvarEmailLoginSmartPhone")
-    Call<Login> salvarLoginSmartPhone(
-            @Field("email") String email
+    @POST("/salvarEmailLoginSmartPhone/")
+    Call<ConsultorModel> salvarEmailSmartPhone(
+            @Field("email") String email,
+            @Field("data_cadastro") String data_cadastro
+    );
+
+    @FormUrlEncoded
+    @POST("/salvarEmailLoginSmartPhone/")
+    Call<Login> salvarNomeConsultor(
+            @Field("nome") String nome,
+            @Field("sobre_nome") String sobreNome
     );
 }
