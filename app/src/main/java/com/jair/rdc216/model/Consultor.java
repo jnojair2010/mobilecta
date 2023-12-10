@@ -14,7 +14,7 @@ public class Consultor  {
     private String mensagemRetornoServidor;
     private int idConsultor;
     private String Funcao;
-    private String dataRegisto;
+    private String dataRegistro;
 
 
 
@@ -111,11 +111,11 @@ public class Consultor  {
         Funcao = funcao;
     }
 
-    public String getDataRegisto() {
-        return dataRegisto;
+    public String getDataRegistro() {
+        return dataRegistro;
     }
 
-    public void setDataRegisto(String dataRegisto) {
-        this.dataRegisto = dataRegisto;
+    public void setDataRegistro(String dataRegisto) {
+        this.dataRegistro = dataRegisto;
     }
 }

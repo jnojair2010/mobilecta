@@ -29,6 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.Firebase;
 import com.jair.rdc216.activits.CadastroConsultor;
+import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
 import com.jair.rdc216.dao.sqlite.model.LoginModel;
 import com.jair.rdc216.dao.sqlite.repositorio.LoginRepositorio;
 import com.jair.rdc216.fragments.frag_activit_main.Checked;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private Checkelist mCheckelist;
     private ViewHolder mViewHolder = new ViewHolder();
 
-    Consultor mConsultor = new Consultor();
+    Consultor consultor = new Consultor();
     private LoginRepositorio mLoginRepositorio;
 
 
@@ -152,12 +153,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //metodo que retornat um consultor antes de cadastrar o consulto no bando de dado sqlite
+    // se não tiver consultor cadastrado chama a activitycadastro para iniciar procedimento de cadastro
     private void salvarNomeAndSobreNomeConsultor(){
-        mConsultor = mManagerUsuarioSistema.getmConsultor();
-        if(mConsultor.getNome()== null && mConsultor.getSobre_nome() == null) getDialogCadNomeAndSobreNome();
-
+        consultor = mManagerUsuarioSistema.getmConsultor();
+        getConsultorbd();
+        if(consultor.getNome()== null && consultor.getSobre_nome() == null) getDialogCadNomeAndSobreNome();
 
     }
+
+    //metodo que retorna do banco de dado sqlite o consultor que estiver dasatrado
+    private void getConsultorbd(){
+
+        mManagerUsuarioSistema.getConsultorBd(this);
+
+    }
+
 
     private Dialog getDialogCadNomeAndSobreNome(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -175,6 +186,12 @@ public class MainActivity extends AppCompatActivity {
                           String nome = edtNome.getText().toString();
                           String sobreNome = edtSobreNome.getText().toString();
 
+                        ConsultorModel consultor = new ConsultorModel();
+                        consultor.setNome(nome);
+                        consultor.setSobre_nome(sobreNome);
+
+                          mManagerUsuarioSistema.setConsultorNomeSobreNome(consultor);
+
                         abrirActivitCadastroConsultor();
 
                     }
@@ -184,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
                         // User cancelled the dialog
                     }
                 });
-        // Create the AlertDialog object and return it
         builder.create();
         return  builder.show();
     }

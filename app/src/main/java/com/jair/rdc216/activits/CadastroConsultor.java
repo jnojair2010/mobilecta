@@ -53,7 +53,7 @@ public class CadastroConsultor extends AppCompatActivity {
     GoogleSignInClient googleSingInClient;
     FirebaseAuth mAuth;
     AccountManager am;
-    private ConsultorModel consultor = new ConsultorModel();
+    private Consultor consultor = new Consultor();
 
     private LoginRepositorio mLoginRepositorio;
     private ConsultorRespostorio mConsultorRepositorio;
@@ -118,7 +118,6 @@ public class CadastroConsultor extends AppCompatActivity {
 
     @Override
     public void onStart(){
-
         super.onStart();
         if(mManagerUsuarioSistema.getUsuarioLogado()!=true){
 
@@ -134,17 +133,17 @@ public class CadastroConsultor extends AppCompatActivity {
 
     }
 
-    //salvar o login no banco de dado da conta google
-    private void salvarConsultorBd(ConsultorModel consultor ){
-
+    //metodo que salva o consultor no banco de dado sqlite do celular ao cadastra pela primeira vez
+    private void salvarConsultorBd(){
+        this.consultor = ManagerUsuarioSistema.getmConsultor();
         mConsultorRepositorio.InserirConsultor(consultor);
-
-        Toast.makeText(this,"Entrou em SalvarLoginBd:"+consultor.getEmail(),Toast.LENGTH_LONG).show();
 
     }
 
-    private void salvarConsultorServidor(ConsultorModel consultor ){
-        Call<ConsultorModel> salvarEmailSmartPhone = this.mServiceHttp.salvarEmailSmartPhone(consultor.getEmail(), consultor.getData_cadastro());
+    private void salvarConsultorServidor( ){
+
+        this.consultor = ManagerUsuarioSistema.getmConsultor();
+        Call<ConsultorModel> salvarEmailSmartPhone = this.mServiceHttp.salvarEmailSmartPhone(consultor.getEmail(), consultor.getNome(), consultor.getSobre_nome(), consultor.getData_cadastro());
                     salvarEmailSmartPhone.enqueue(new Callback<ConsultorModel>() {
                         @Override
                         public void onResponse(Call<ConsultorModel> call, Response<ConsultorModel> response) {
@@ -188,14 +187,15 @@ public class CadastroConsultor extends AppCompatActivity {
 
                 consultor.setEmail(user.getEmail());
                 consultor.setData_cadastro(dataFormatada);
+                consultor.setEstado_consultor(true);
 
-                this.mManagerUsuarioSistema.setConsultor(consultor);
+                this.mManagerUsuarioSistema.setConsultorEmail(consultor);
 
                 this.mManagerUsuarioSistema.setUsuarioLogado(true);
                 this.mManagerUsuarioSistema.salvarLoginGoogle();
 
-                salvarConsultorBd(consultor);
-                salvarConsultorServidor(consultor);
+                salvarConsultorBd();
+                salvarConsultorServidor();
 
                // Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();

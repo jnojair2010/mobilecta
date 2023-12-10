@@ -25,6 +25,8 @@ public interface ServiceHttp {
     @POST("/salvarEmailLoginSmartPhone/")
     Call<ConsultorModel> salvarEmailSmartPhone(
             @Field("email") String email,
+            @Field("nome") String nome,
+            @Field("sobre_nome") String sobreNome,
             @Field("data_cadastro") String data_cadastro
     );
 
