@@ -24,11 +24,11 @@ public class Consultor  {
     }
 
     public int getId() {
-        return id;
+        return idConsultor;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.idConsultor = id;
     }
 
     public String getNome() {
@@ -118,4 +118,6 @@ public class Consultor  {
     public void setDataRegistro(String dataRegisto) {
         this.dataRegistro = dataRegisto;
     }
+
+
 }

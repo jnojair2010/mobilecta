@@ -29,6 +29,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.Firebase;
 import com.jair.rdc216.activits.CadastroConsultor;
+import com.jair.rdc216.dao.http.RetrofitHttp;
+import com.jair.rdc216.dao.http.ServiceHttp;
 import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
 import com.jair.rdc216.dao.sqlite.model.LoginModel;
 import com.jair.rdc216.dao.sqlite.repositorio.LoginRepositorio;
@@ -39,6 +41,10 @@ import com.jair.rdc216.manager.ManagerUsuarioSistema;
 import com.jair.rdc216.manager.permission.Permission;
 import com.jair.rdc216.model.Consultor;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity {
     private ActionBar bar;
@@ -47,11 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private Checkelist mCheckelist;
     private ViewHolder mViewHolder = new ViewHolder();
 
-    Consultor consultor = new Consultor();
+   private Consultor consultor = new Consultor();
     private LoginRepositorio mLoginRepositorio;
 
-
-
+    private ServiceHttp mServiceHttp = RetrofitHttp.createService(ServiceHttp.class);
 
     private String[] permissioesNecessarias = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -164,9 +169,37 @@ public class MainActivity extends AppCompatActivity {
 
     //metodo que retorna do banco de dado sqlite o consultor que estiver dasatrado
     private void getConsultorbd(){
-
         mManagerUsuarioSistema.getConsultorBd(this);
+       if(mManagerUsuarioSistema.getUsuarioLogado() == true) {
+           getConsultorHttp();
+           this.consultor = mManagerUsuarioSistema.getmConsultor();
+       }
+    }
 
+    //Metodo para buscar o consultor no servidor apos consultar o banco de dado
+    private void getConsultorHttp(){
+
+        Call<Consultor> getConsultorHttp = this.mServiceHttp.getConsultorHttp(this.consultor.getEmail());
+
+                getConsultorHttp.enqueue(new Callback<Consultor>() {
+                    @Override
+                    public void onResponse(Call<Consultor> call, Response<Consultor> response) {
+                        consultor.setNome(response.body().getNome());
+                        consultor.setSobre_nome(response.body().getSobre_nome());
+                        consultor.setEmail(response.body().getEmail());
+                        consultor.setData_cadastro(response.body().getData_cadastro());
+                        consultor.setEstado_consultor(response.body().isEstado_consultor());
+                        consultor.setCpf(response.body().getCpf());
+                        consultor.setDataRegistro(response.body().getRegistro());
+                        consultor.setIdConsultor( response.body().getIdConsultor());
+                        mManagerUsuarioSistema.setmConsultor(consultor);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Consultor> call, Throwable t) {
+
+                    }
+                });
     }
 
 

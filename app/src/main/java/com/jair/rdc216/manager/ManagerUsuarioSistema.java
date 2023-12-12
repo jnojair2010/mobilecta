@@ -10,7 +10,7 @@ import com.jair.rdc216.model.Consultor;
 public class ManagerUsuarioSistema {
 
 
-    public static Consultor Consultor = new Consultor();
+    private static Consultor Consultor = new Consultor();
    // ConsultorModel consultor = new ConsultorModel();
 
     private static boolean usuarioLogado = false;
@@ -33,12 +33,13 @@ public class ManagerUsuarioSistema {
               Consultor.setSobre_nome(mConsultor.getSobre_nome());
              Consultor.setEmail(mConsultor.getEmail());
              Consultor.setData_cadastro(mConsultor.getData_cadastro());
+            setUsuarioLogado(true);
         }
 
     }
 
     public static void setmConsultor(Consultor mConsultor) {
-        ManagerUsuarioSistema.Consultor = mConsultor;
+        Consultor = mConsultor;
     }
 
     public void setConsultorEmail(Consultor consultor) {
@@ -58,14 +59,6 @@ public class ManagerUsuarioSistema {
         ManagerUsuarioSistema.usuarioLogado = usuarioLogado;
     }
 
-    // para deletar
-  /*  public static String getEmail() {
-        return email;
-    }
-
-    public static void setEmail(String email) {
-        ManagerUsuarioSistema.email = email;
-    }*/
 
     public boolean salvarLoginGoogle(){
 

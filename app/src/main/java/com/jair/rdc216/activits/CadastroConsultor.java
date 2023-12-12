@@ -143,17 +143,20 @@ public class CadastroConsultor extends AppCompatActivity {
     private void salvarConsultorServidor( ){
 
         this.consultor = ManagerUsuarioSistema.getmConsultor();
+
         Call<ConsultorModel> salvarEmailSmartPhone = this.mServiceHttp.salvarEmailSmartPhone(consultor.getEmail(), consultor.getNome(), consultor.getSobre_nome(), consultor.getData_cadastro());
                     salvarEmailSmartPhone.enqueue(new Callback<ConsultorModel>() {
                         @Override
                         public void onResponse(Call<ConsultorModel> call, Response<ConsultorModel> response) {
                             response.code();
-                            Log.i("retrofit"," o status do servidor é "+response.body().getMensagemRetornoServidor());
+
+                            Toast.makeText(getApplication(),response.body().getMensagemRetornoServidor(),Toast.LENGTH_LONG).show();
+
                         }
 
                         @Override
                         public void onFailure(Call<ConsultorModel> call, Throwable t) {
-                            Log.i("retrofit"," o erro do servidor é "+t.getMessage());
+
                         }
                     });
 
@@ -197,7 +200,6 @@ public class CadastroConsultor extends AppCompatActivity {
                 salvarConsultorBd();
                 salvarConsultorServidor();
 
-               // Toast.makeText(this,"Login com sucesso  "+user.getEmail(),Toast.LENGTH_LONG).show();
                 finish();
 
             }else{

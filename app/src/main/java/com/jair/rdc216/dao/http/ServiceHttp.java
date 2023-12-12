@@ -2,6 +2,7 @@ package com.jair.rdc216.dao.http;
 
 import com.jair.rdc216.dao.sqlite.model.ConsultorModel;
 import com.jair.rdc216.dao.sqlite.model.LoginModel;
+import com.jair.rdc216.model.Consultor;
 import com.jair.rdc216.model.DatasScheduling;
 import com.jair.rdc216.model.Login;
 
@@ -20,6 +21,10 @@ public interface ServiceHttp {
     Call<List<DatasScheduling>> getAllScheduling(
 
     );
+    @GET("/getConsultor")
+    Call<Consultor> getConsultorHttp(
+            @Query("email") String email
+    );
 
     @FormUrlEncoded
     @POST("/salvarEmailLoginSmartPhone/")
@@ -30,10 +35,4 @@ public interface ServiceHttp {
             @Field("data_cadastro") String data_cadastro
     );
 
-    @FormUrlEncoded
-    @POST("/salvarEmailLoginSmartPhone/")
-    Call<Login> salvarNomeConsultor(
-            @Field("nome") String nome,
-            @Field("sobre_nome") String sobreNome
-    );
 }
